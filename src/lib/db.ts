@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+// Registering every schema here means a route can .populate() a model it does not
+// itself import. Without this, a cold start that only loads some model files throws
+// MissingSchemaError - which is invisible in development, where an earlier request
+// has usually registered the model already.
+import "@/models";
+
 /**
  * Cached connection helper.
  * Next.js hot-reloads modules in development, so without caching every reload

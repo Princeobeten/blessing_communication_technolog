@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CRMS User Guide</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm; }
+
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: #1e293b; font-size: 10.5pt; line-height: 1.55; margin: 0;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+
+  h1 { font-size: 26pt; margin: 0 0 6px; letter-spacing: -0.5px; color: #0f172a; }
+  h2 {
+    font-size: 15pt; margin: 26px 0 10px; color: #0f172a;
+    padding-bottom: 6px; border-bottom: 2px solid #2044eb;
+  }
+  h3 { font-size: 11.5pt; margin: 18px 0 6px; color: #0f172a; }
+  p  { margin: 0 0 9px; }
+  ol, ul { margin: 0 0 10px; padding-left: 20px; }
+  li { margin-bottom: 4px; }
+  code { background: #f1f5f9; padding: 1px 5px; border-radius: 3px; font-size: 9.5pt; }
+
+  .page-break { page-break-before: always; }
+  .avoid-break { page-break-inside: avoid; }
+
+  /* Never strand a heading, figure or table across a page boundary. */
+  h2, h3 { page-break-after: avoid; page-break-inside: avoid; }
+  table  { page-break-inside: avoid; }
+  ol, ul { page-break-inside: avoid; }
+
+  /* Cover */
+  .cover { text-align: center; padding-top: 55mm; page-break-after: always; }
+  .logo {
+    width: 62px; height: 62px; border-radius: 14px; background: #2044eb; color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 27pt; font-weight: 700; margin-bottom: 22px;
+  }
+  .cover .sub { font-size: 13pt; color: #475569; margin-bottom: 34px; }
+  .cover .url {
+    display: inline-block; background: #eef4ff; border: 1px solid #bcd1ff;
+    border-radius: 9px; padding: 13px 26px; font-size: 12pt; color: #1a34d8; font-weight: 600;
+  }
+  .cover .foot { margin-top: 46px; font-size: 10pt; color: #64748b; }
+
+  table { width: 100%; border-collapse: collapse; margin: 10px 0 14px; font-size: 9.5pt; }
+  th {
+    background: #f1f5f9; text-align: left; padding: 8px 10px; font-weight: 600;
+    color: #334155; border: 1px solid #e2e8f0;
+  }
+  td { padding: 8px 10px; border: 1px solid #e2e8f0; vertical-align: top; }
+  tr:nth-child(even) td { background: #fafcff; }
+
+  .note, .warn, .tip {
+    border-radius: 8px; padding: 11px 14px; margin: 12px 0; font-size: 9.5pt;
+    border-left: 4px solid;
+  }
+  .note { background: #eff6ff; border-color: #2044eb; }
+  .warn { background: #fef2f2; border-color: #e11d48; }
+  .tip  { background: #ecfdf5; border-color: #059669; }
+
+  .shot {
+    margin: 12px 0 6px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;
+    page-break-inside: avoid; page-break-after: avoid;
+  }
+  .shot img { width: 100%; display: block; }
+  .caption {
+    font-size: 8.5pt; color: #64748b; margin: 0 0 16px; text-align: center;
+    page-break-before: avoid;
+  }
+
+  .steps { counter-reset: step; padding-left: 0; list-style: none; }
+  .steps > li {
+    counter-increment: step; position: relative; padding-left: 30px; margin-bottom: 9px;
+  }
+  .steps > li::before {
+    content: counter(step); position: absolute; left: 0; top: 1px;
+    width: 20px; height: 20px; border-radius: 50%; background: #2044eb; color: #fff;
+    font-size: 8.5pt; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+
+  .pill {
+    display: inline-block; padding: 2px 9px; border-radius: 20px;
+    font-size: 8.5pt; font-weight: 600; white-space: nowrap;
+  }
+  .p-slate { background: #f1f5f9; color: #334155; }
+  .p-violet{ background: #ede9fe; color: #6d28d9; }
+  .p-amber { background: #fef3c7; color: #92400e; }
+  .p-blue  { background: #dbeafe; color: #1d4ed8; }
+  .p-orange{ background: #ffedd5; color: #9a3412; }
+  .p-green { background: #d1fae5; color: #047857; }
+  .p-teal  { background: #ccfbf1; color: #0f766e; }
+  .p-red   { background: #ffe4e6; color: #be123c; }
+
+  .toc { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 20px; }
+  .toc ol { margin: 0; padding-left: 18px; }
+  .toc li { margin-bottom: 5px; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div class="logo">C</div>
+  <h1>Computer Repair<br>Management System</h1>
+  <p class="sub">User Guide &mdash; how to use the software</p>
+  <div class="url">blessing-communication-technolog.vercel.app</div>
+  <p class="foot">
+    Everything you need to log a repair, track it, bill it and report on it.<br>
+    Read this once and you will know the whole system.
+  </p>
+</div>
+
+<!-- ============ 1. WHAT IT IS ============ -->
+<h2>1. What this software does</h2>
+<p>
+  This is a <strong>Computer Repair Management System (CRMS)</strong>. It replaces the
+  paper records and scattered spreadsheets a repair workshop normally uses. Everything
+  lives in one place:
+</p>
+<ul>
+  <li><strong>Customers</strong> &mdash; who brought a device in, and their contact details.</li>
+  <li><strong>Repair jobs</strong> &mdash; what came in, what is wrong with it, who is fixing it and how far along it is.</li>
+  <li><strong>Spare parts</strong> &mdash; what is in stock, what has been used, and what needs reordering.</li>
+  <li><strong>Invoices</strong> &mdash; what the customer owes and what they have paid.</li>
+  <li><strong>Reports</strong> &mdash; how the workshop is performing.</li>
+</ul>
+<p>
+  The system also <strong>messages the customer automatically</strong> every time their
+  repair moves forward, and gives them a page where they can check the status themselves.
+</p>
+
+<div class="toc avoid-break">
+  <strong>What is in this guide</strong>
+  <ol>
+    <li>What this software does</li>
+    <li>Signing in &mdash; website address and login details</li>
+    <li>Finding your way around</li>
+    <li>The repair process, start to finish</li>
+    <li>Everyday tasks, step by step</li>
+    <li>Repair statuses explained</li>
+    <li>How customers track their own repair</li>
+    <li>Who is allowed to do what</li>
+    <li>Problems and answers</li>
+  </ol>
+</div>
+
+<!-- ============ 2. SIGNING IN ============ -->
+<div class="page-break"></div>
+<h2>2. Signing in</h2>
+
+<h3>Website address</h3>
+<p>Open this address in any web browser, on a computer or a phone:</p>
+<table class="avoid-break">
+  <tr>
+    <th style="width:32%">Staff (workshop) sign in</th>
+    <td><code>https://blessing-communication-technolog.vercel.app</code></td>
+  </tr>
+  <tr>
+    <th>Customer repair tracking</th>
+    <td><code>https://blessing-communication-technolog.vercel.app/track</code></td>
+  </tr>
+</table>
+
+<h3>Login details</h3>
+<p>There are two kinds of user. <strong>Staff sign in. Customers do not.</strong></p>
+
+<table class="avoid-break">
+  <tr>
+    <th style="width:20%">Role</th>
+    <th style="width:32%">Email</th>
+    <th style="width:22%">Password</th>
+    <th>What they can do</th>
+  </tr>
+  <tr>
+    <td><strong>Administrator</strong><br>Blessing Adeyemi</td>
+    <td><code>admin@crms.test</code></td>
+    <td><code>password123</code></td>
+    <td>Everything: all repairs, staff, inventory, invoices and reports.</td>
+  </tr>
+  <tr>
+    <td><strong>Technician</strong><br>Tunde Bakare</td>
+    <td><code>tunde@crms.test</code></td>
+    <td><code>password123</code></td>
+    <td>Only the repairs assigned to them.</td>
+  </tr>
+  <tr>
+    <td><strong>Technician</strong><br>Amaka Nwosu</td>
+    <td><code>amaka@crms.test</code></td>
+    <td><code>password123</code></td>
+    <td>Only the repairs assigned to them.</td>
+  </tr>
+  <tr>
+    <td><strong>Technician</strong><br>Ibrahim Sani</td>
+    <td><code>ibrahim@crms.test</code></td>
+    <td><code>password123</code></td>
+    <td>Only the repairs assigned to them.</td>
+  </tr>
+</table>
+
+<div class="warn">
+  <strong>Important.</strong> These are demonstration accounts and the passwords are
+  publicly known. Before using the system with real customer information, sign in as the
+  administrator, go to <strong>Staff</strong>, and create fresh accounts with private
+  passwords &mdash; then disable these ones.
+</div>
+
+<h3>How to sign in</h3>
+<ol class="steps">
+  <li>Open the website address above. You will land on the sign-in screen.</li>
+  <li>Type the email address and password from the table.</li>
+  <li>Click <strong>Sign in</strong>. You will land on the Dashboard.</li>
+</ol>
+<p>To leave, click <strong>Sign out</strong> at the bottom-left of the screen. You stay signed in for 8 hours.</p>
+
+<div class="shot"><img src="screenshots/login.png" alt="Sign in screen"></div>
+<p class="caption">The sign-in screen. Customers use the link at the bottom instead.</p>
+
+<!-- ============ 3. NAVIGATION ============ -->
+<h2>3. Finding your way around</h2>
+<p>
+  The dark menu down the left-hand side is how you move around. It is always there.
+  On a phone, tap the <strong>&#9776;</strong> button at the top to open it.
+</p>
+
+<table>
+  <tr><th style="width:24%">Menu item</th><th>What you use it for</th></tr>
+  <tr><td><strong>Dashboard</strong></td><td>Your home screen. How many jobs are open, what needs attention, money in and out, and low stock warnings.</td></tr>
+  <tr><td><strong>Repair jobs</strong></td><td>Every work order. Search, filter by status, and open any job to work on it.</td></tr>
+  <tr><td><strong>Customers</strong></td><td>Register a customer and see everything they have ever brought in.</td></tr>
+  <tr><td><strong>Inventory</strong></td><td>Spare parts: how many are left, prices, and adding new stock.</td></tr>
+  <tr><td><strong>Invoices</strong></td><td>Bills raised, what has been paid, what is still owed. Printable.</td></tr>
+  <tr><td><strong>Notifications</strong></td><td>Every message the system has sent to a customer.</td></tr>
+  <tr><td><strong>Reports</strong> <span class="pill p-blue">Admin only</span></td><td>Charts and figures: repair trends, revenue, technician performance.</td></tr>
+  <tr><td><strong>Staff</strong> <span class="pill p-blue">Admin only</span></td><td>Create, enable and disable the accounts that can sign in.</td></tr>
+</table>
+
+<div class="shot"><img src="screenshots/dashboard.png" alt="Dashboard"></div>
+<p class="caption">The Dashboard. The four boxes at the top are your at-a-glance numbers.</p>
+
+<div class="tip">
+  <strong>Tip.</strong> Anything shown in <strong>blue text</strong> can be clicked. Ticket
+  numbers like <code>TRK-2026-0006</code> open the full repair job.
+</div>
+
+<!-- ============ 4. THE PROCESS ============ -->
+<h2>4. The repair process, start to finish</h2>
+<p>Every repair follows the same path through the system:</p>
+
+<table>
+  <tr><th style="width:6%">#</th><th style="width:30%">Stage</th><th>What happens</th></tr>
+  <tr><td>1</td><td><strong>Device comes in</strong></td><td>You fill the intake form. The system creates a tracking number and texts/emails the customer.</td></tr>
+  <tr><td>2</td><td><strong>Technician diagnoses</strong></td><td>The technician inspects it and writes down what is actually wrong.</td></tr>
+  <tr><td>3</td><td><strong>Quote is sent</strong></td><td>You enter labour and parts cost. The customer is told the price.</td></tr>
+  <tr><td>4</td><td><strong>Customer approves</strong></td><td>You record their approval. Only then can work start.</td></tr>
+  <tr><td>5</td><td><strong>Repair is done</strong></td><td>Parts are fitted &mdash; stock reduces automatically. Work is written up.</td></tr>
+  <tr><td>6</td><td><strong>Invoice and payment</strong></td><td>The invoice builds itself from the labour and parts recorded. You take payment.</td></tr>
+  <tr><td>7</td><td><strong>Device handed back</strong></td><td>Mark it delivered. The job is closed.</td></tr>
+</table>
+
+<div class="note">
+  <strong>The system protects you.</strong> You cannot skip a stage, cannot start work
+  before the customer approves the price, cannot invoice a repair that is not finished,
+  cannot use a part you do not have, and cannot take more money than the invoice is for.
+  If you try, it explains why in plain words.
+</div>
+
+<!-- ============ 5. EVERYDAY TASKS ============ -->
+<h2>5. Everyday tasks, step by step</h2>
+
+<h3 class="avoid-break">A. Logging a device that has just come in</h3>
+<ol class="steps">
+  <li>Click <strong>Repair jobs</strong>, then the blue <strong>New repair intake</strong> button.</li>
+  <li>Under <strong>Customer</strong>, choose <strong>New customer</strong> and type their name, phone and email &mdash; or choose <strong>Existing customer</strong> and pick them from the list.</li>
+  <li>Under <strong>Device details</strong>, record the type, brand, model, serial number, anything they left with it (charger, bag) and any existing damage.</li>
+  <li>Under <strong>Reported fault</strong>, write the problem in the customer's own words.</li>
+  <li>On the right, set the priority, assign a technician if you know who will handle it, and set an expected completion date.</li>
+  <li>Click <strong>Create work order</strong>.</li>
+</ol>
+<div class="tip">
+  <strong>Give the customer their tracking number.</strong> It looks like
+  <code>TRK-2026-0014</code> and appears at the top of the job. They use it to check
+  progress themselves without phoning you.
+</div>
+
+<div class="shot"><img src="screenshots/repairs.png" alt="Repair jobs list"></div>
+<p class="caption">The Repair jobs list. Search by ticket, customer, brand or serial number.</p>
+
+<h3>B. Working on a repair</h3>
+<p>Click any ticket number to open its work screen. Everything about that repair is here.</p>
+<ol class="steps">
+  <li><strong>Move it forward.</strong> The <strong>Repair status</strong> box at the top shows only the stages you are allowed to move to next. Click one, add a note for the customer, and confirm.</li>
+  <li><strong>Write your findings.</strong> Fill in <strong>Technician diagnosis</strong> and <strong>Work carried out</strong>, set the labour charge, then click <strong>Save</strong>.</li>
+  <li><strong>Fit a part.</strong> In <strong>Spare parts used</strong>, click <strong>Add part</strong>, pick it and enter how many. Stock drops automatically. The bin icon returns a part to stock if you added it by mistake.</li>
+  <li><strong>Check the history.</strong> <strong>Job history</strong> at the bottom shows every change, who made it and when.</li>
+</ol>
+
+<div class="shot"><img src="screenshots/job.png" alt="Repair job work screen"></div>
+<p class="caption">The repair work screen. Customer, device and running cost stay on the right.</p>
+
+<h3>C. Quoting a price and getting approval</h3>
+<ol class="steps">
+  <li>On the repair screen, click <strong>Prepare quote</strong> (top right).</li>
+  <li>Enter the labour cost and the estimated parts cost. The total is worked out for you.</li>
+  <li>Click <strong>Send quote</strong>. The job moves to <span class="pill p-amber">Awaiting approval</span> and the customer is told the price.</li>
+  <li>When the customer agrees, click <strong>Approve quote</strong>, type who approved it, and confirm.</li>
+  <li>The job moves to <span class="pill p-blue">In progress</span> on its own. Work can now begin.</li>
+</ol>
+
+<h3>D. Billing and taking payment</h3>
+<ol class="steps">
+  <li>Finish the repair and mark it <span class="pill p-green">Completed</span>.</li>
+  <li>Click <strong>Generate invoice</strong>. The invoice is built automatically from the labour charge and the parts you recorded &mdash; you do not retype anything.</li>
+  <li>Add a tax rate or discount if needed, then click <strong>Generate</strong>.</li>
+  <li>Open the invoice and click <strong>Record payment</strong>. Enter the amount and how they paid. Part payments are fine &mdash; the balance updates.</li>
+  <li>Click <strong>Print</strong> to give the customer a copy.</li>
+  <li>When they collect the device, go back to the repair and mark it <span class="pill p-teal">Delivered</span>.</li>
+</ol>
+
+<div class="shot"><img src="screenshots/invoice.png" alt="Invoice"></div>
+<p class="caption">An invoice, ready to print.</p>
+
+<h3>E. Looking after spare parts</h3>
+<ol class="steps">
+  <li>Click <strong>Inventory</strong> to see every part and how many are left.</li>
+  <li><strong>Add part</strong> registers something new. The <strong>reorder level</strong> is the number at which the system starts warning you.</li>
+  <li><strong>Adjust</strong> changes the stock count. Enter a positive number for stock received (e.g. <code>10</code>) or a negative number to write stock off (e.g. <code>-2</code>), and give a reason.</li>
+  <li>Tick <strong>Low stock only</strong> to see just the parts that need reordering.</li>
+</ol>
+<div class="note">
+  Parts fitted to a repair come off stock automatically &mdash; you never adjust for those
+  by hand. Every single change is recorded with a reason, so the count can always be explained.
+</div>
+
+<div class="shot"><img src="screenshots/inventory.png" alt="Inventory"></div>
+<p class="caption">Inventory. Red and amber tags mark parts that are out or running low.</p>
+
+<h3>F. Registering a customer on their own</h3>
+<p>
+  You normally do not need this &mdash; the intake form registers a new customer for you.
+  But if you want to add someone in advance, click <strong>Customers</strong> then
+  <strong>Register customer</strong>. Opening a customer shows every repair they have
+  ever brought in.
+</p>
+
+<h3>G. Reading the reports <span class="pill p-blue">Administrator only</span></h3>
+<p>Click <strong>Reports</strong>. Use the box at the top right to change the period.</p>
+<table>
+  <tr><th style="width:36%">What you see</th><th>What it tells you</th></tr>
+  <tr><td>Average turnaround</td><td>How long a repair takes from arrival to completion.</td></tr>
+  <tr><td>Collection rate</td><td>How much of what you billed has actually been paid.</td></tr>
+  <tr><td>Repair volume by month</td><td>Whether the workshop is getting busier or quieter.</td></tr>
+  <tr><td>Billed against collected</td><td>Money raised versus money received, month by month.</td></tr>
+  <tr><td>Devices received</td><td>Which equipment you see most, so you stock the right parts.</td></tr>
+  <tr><td>Technician performance</td><td>Jobs handled, completion rate and speed per technician.</td></tr>
+  <tr><td>Fastest-moving parts</td><td>What you use most and should never run out of.</td></tr>
+</table>
+
+<div class="shot"><img src="screenshots/reports.png" alt="Reports"></div>
+<p class="caption">Reports. Hover any bar on screen to see the exact figure.</p>
+
+<h3>H. Managing staff <span class="pill p-blue">Administrator only</span></h3>
+<ol class="steps">
+  <li>Click <strong>Staff</strong>, then <strong>Add staff</strong>.</li>
+  <li>Enter their name, email, a password of at least 6 characters, and choose Technician or Administrator.</li>
+  <li>Use <strong>Disable</strong> when someone leaves &mdash; this keeps their work history but stops them signing in.</li>
+</ol>
+<p>
+  A technician with open jobs cannot be deleted. Reassign their jobs first. You also
+  cannot remove your own administrator access, so you can never lock yourself out.
+</p>
+
+<!-- ============ 6. STATUSES ============ -->
+<h2>6. Repair statuses explained</h2>
+<p>The coloured tag on every job tells you where it is.</p>
+<table>
+  <tr><th style="width:26%">Status</th><th>Meaning</th></tr>
+  <tr><td><span class="pill p-slate">Pending</span></td><td>Device received, waiting for a technician to look at it.</td></tr>
+  <tr><td><span class="pill p-violet">Diagnosing</span></td><td>A technician is inspecting it now.</td></tr>
+  <tr><td><span class="pill p-amber">Awaiting approval</span></td><td>The price has been sent. Waiting for the customer to say yes.</td></tr>
+  <tr><td><span class="pill p-blue">In progress</span></td><td>Approved, and the repair is being done.</td></tr>
+  <tr><td><span class="pill p-orange">Awaiting parts</span></td><td>Paused while a spare part is sourced.</td></tr>
+  <tr><td><span class="pill p-green">Completed</span></td><td>Fixed and ready for the customer to collect.</td></tr>
+  <tr><td><span class="pill p-teal">Delivered</span></td><td>Handed back. The job is closed.</td></tr>
+  <tr><td><span class="pill p-red">Cancelled</span></td><td>The repair will not go ahead.</td></tr>
+</table>
+
+<!-- ============ 7. CUSTOMER TRACKING ============ -->
+<h2>7. How customers track their own repair</h2>
+<p>
+  Customers never sign in and never need an account. Give them their tracking number
+  and this address:
+</p>
+<p><code>https://blessing-communication-technolog.vercel.app/track</code></p>
+<ol class="steps">
+  <li>They type in their tracking number, for example <code>TRK-2026-0005</code>.</li>
+  <li>They see the current status, the device, who is repairing it, the quote and the balance owed.</li>
+  <li>They see a progress list of every stage completed so far.</li>
+</ol>
+<p>
+  They see <strong>only their own repair</strong> &mdash; no other customer's details, no
+  internal notes and no staff information. On top of this, the system emails them
+  automatically at every stage, so most of the time they do not need to check at all.
+  Everything it has sent is listed under <strong>Notifications</strong>.
+</p>
+
+<div class="shot"><img src="screenshots/track.png" alt="Customer tracking page"></div>
+<p class="caption">What the customer sees. No login, no account, no phone call needed.</p>
+
+<!-- ============ 8. PERMISSIONS ============ -->
+<h2>8. Who is allowed to do what</h2>
+<table>
+  <tr>
+    <th style="width:46%">Action</th>
+    <th style="width:27%">Administrator</th>
+    <th style="width:27%">Technician</th>
+  </tr>
+  <tr><td>See all repair jobs</td><td>Yes</td><td>Only their own</td></tr>
+  <tr><td>Log a new device at intake</td><td>Yes</td><td>Yes</td></tr>
+  <tr><td>Update diagnosis and status</td><td>Yes</td><td>On their own jobs</td></tr>
+  <tr><td>Quote and record approval</td><td>Yes</td><td>On their own jobs</td></tr>
+  <tr><td>Fit spare parts to a job</td><td>Yes</td><td>On their own jobs</td></tr>
+  <tr><td>Reassign a job to someone else</td><td>Yes</td><td>No</td></tr>
+  <tr><td>Register and edit customers</td><td>Yes</td><td>Yes</td></tr>
+  <tr><td>Add parts or change stock levels</td><td>Yes</td><td>No (can view)</td></tr>
+  <tr><td>Generate invoices, take payment</td><td>Yes</td><td>Yes</td></tr>
+  <tr><td>View reports</td><td>Yes</td><td>No</td></tr>
+  <tr><td>Create and disable staff accounts</td><td>Yes</td><td>No</td></tr>
+</table>
+
+<!-- ============ 9. TROUBLESHOOTING ============ -->
+<h2>9. Problems and answers</h2>
+<table>
+  <tr><th style="width:42%">What you see</th><th>What to do</th></tr>
+  <tr><td>"Invalid email or password."</td><td>Check for typing mistakes and stray spaces. The password is case sensitive.</td></tr>
+  <tr><td>You keep being sent back to the sign-in screen</td><td>Your 8-hour session ran out. Sign in again.</td></tr>
+  <tr><td>"A job cannot move from X to Y."</td><td>Repairs must follow the proper order. Use one of the buttons the system offers you.</td></tr>
+  <tr><td>"The customer must approve the quote before work can begin."</td><td>Click <strong>Approve quote</strong> and record who approved it first.</td></tr>
+  <tr><td>"Only 3 of that part left in stock."</td><td>You asked for more than you have. Reduce the quantity or add stock under Inventory.</td></tr>
+  <tr><td>"Complete the repair before generating an invoice."</td><td>Mark the repair <strong>Completed</strong>, then invoice it.</td></tr>
+  <tr><td>"That is more than the outstanding balance."</td><td>You cannot take more than is owed. Check the balance shown on the invoice.</td></tr>
+  <tr><td>"This customer has 3 repair jobs and cannot be deleted."</td><td>Deliberate &mdash; deleting them would destroy repair history.</td></tr>
+  <tr><td>"No repair found with that tracking number."</td><td>Check the number. It looks like <code>TRK-2026-0005</code>.</td></tr>
+  <tr><td>Reports or Staff are missing from the menu</td><td>You are signed in as a technician. Those are administrator-only.</td></tr>
+</table>
+
+<div class="warn">
+  <strong>Before real use.</strong> Change every password from <code>password123</code>,
+  and never share database or server settings with anyone who only needs to use the website.
+  This guide contains sign-in details for people, not system settings.
+</div>
+
+</body>
+</html>

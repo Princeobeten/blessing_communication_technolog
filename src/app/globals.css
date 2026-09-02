@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #d9e5ff;
+  --color-brand-200: #bcd1ff;
+  --color-brand-300: #8eb2ff;
+  --color-brand-400: #5988fc;
+  --color-brand-500: #3563f6;
+  --color-brand-600: #2044eb;
+  --color-brand-700: #1a34d8;
+  --color-brand-800: #1c2eaf;
+  --color-brand-900: #1c2e8a;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
+
+/* Printable invoice: hide the app shell, keep the document. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .print-area {
+    box-shadow: none !important;
+    border: none !important;
+  }
+}

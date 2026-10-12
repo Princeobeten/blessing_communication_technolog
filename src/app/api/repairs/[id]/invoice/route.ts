@@ -6,7 +6,7 @@ import Invoice from "@/models/Invoice";
 import { requireSession, HttpError } from "@/lib/auth";
 import { ok, handleError } from "@/lib/http";
 import { nextInvoiceNumber } from "@/lib/counters";
-import { sendNotification } from "@/lib/notify";
+import { notifyInvoiceIssued } from "@/lib/notify";
 import { formatMoney } from "@/lib/utils";
 
 type Params = { params: Promise<{ id: string }> };
@@ -82,15 +82,7 @@ export async function POST(req: Request, { params }: Params) {
     });
 
     const customer = await Customer.findById(job.customer).lean();
-    await sendNotification({
-      event: "invoice.issued",
-      customer,
-      job,
-      subject: `[${job.ticket}] Invoice ${invoice.invoiceNumber} - ${formatMoney(total)}`,
-      message: `Hello ${customer?.name ?? ""},\n\nYour repair is complete. Invoice ${
-        invoice.invoiceNumber
-      } totalling ${formatMoney(total)} has been issued and is payable on collection.`,
-    });
+    await notifyInvoiceIssued(job, customer, invoice.invoiceNumber, formatMoney(total));
 
     return ok({ invoice }, 201);
   } catch (err) {

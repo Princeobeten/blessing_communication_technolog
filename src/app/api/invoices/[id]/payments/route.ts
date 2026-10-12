@@ -4,7 +4,7 @@ import Invoice, { PAYMENT_METHODS } from "@/models/Invoice";
 import Customer from "@/models/Customer";
 import { requireSession, HttpError } from "@/lib/auth";
 import { ok, handleError } from "@/lib/http";
-import { sendNotification } from "@/lib/notify";
+import { notifyPaymentReceived } from "@/lib/notify";
 import { formatMoney } from "@/lib/utils";
 
 type Params = { params: Promise<{ id: string }> };
@@ -38,20 +38,18 @@ export async function POST(req: Request, { params }: Params) {
     invoice.status = invoice.amountPaid >= invoice.total - 0.001 ? "paid" : "partial";
     await invoice.save();
 
+    const remaining = invoice.total - invoice.amountPaid;
     const customer = await Customer.findById(invoice.customer).lean();
-    await sendNotification({
-      event: "payment.received",
+    await notifyPaymentReceived(
+      { _id: invoice.job, ticket: invoice.ticket },
       customer,
-      job: { _id: invoice.job, ticket: invoice.ticket },
-      subject: `[${invoice.invoiceNumber}] Payment received - ${formatMoney(amount)}`,
-      message: `We have received ${formatMoney(amount)} towards invoice ${invoice.invoiceNumber}. ${
-        invoice.status === "paid"
-          ? "The invoice is now fully settled. Thank you."
-          : `Outstanding balance: ${formatMoney(invoice.total - invoice.amountPaid)}.`
-      }`,
-    });
+      invoice.invoiceNumber,
+      formatMoney(amount),
+      formatMoney(remaining),
+      invoice.status === "paid"
+    );
 
-    return ok({ invoice: { ...invoice.toObject(), balance: invoice.total - invoice.amountPaid } });
+    return ok({ invoice: { ...invoice.toObject(), balance: remaining } });
   } catch (err) {
     return handleError(err);
   }
